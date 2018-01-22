@@ -1,0 +1,20 @@
+{
+  "name": "@pderas/vue2-table",
+  "version": "1.0.0",
+  "description": "A simple vue component for rendering sortable tables.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "vue2",
+    "tables",
+    "datatables",
+    "sorting",
+    "data",
+    "pderas"
+  ],
+  "author": "David Buss",
+  "license": "MIT"
+}
