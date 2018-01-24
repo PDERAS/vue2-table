@@ -5,7 +5,7 @@ A simple vue component to render dynamic tables with sortable headers.
 Vue table is built as a vue plugin. It can be initialized just as the Vue documentation states.
 
 ```javascript
-import VueTable from 'vue2-table';
+import VueTable from '@pderas/vue2-table';
 
 Vue.use(VueTable);
 ```
@@ -50,7 +50,7 @@ Headers need to be defined before a table can be created. There are multiple opt
 A vue table passes the information recieved from the url back into the view component so that it can be used in the row. A sample vue table could look like this.
 ```javascript
 <vue-table url="/clients/search" :headers="headers" :methods="methods">
-    <template slot="row" scope="{ row }">
+    <template slot="row" slot-scope="{ row }">
         <tr>
             <td>{{ row.status }}</td>
             <td @click="row.methods.goTo('/clients')">
