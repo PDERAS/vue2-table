@@ -14,28 +14,28 @@
 
         props: {
             disabled: {
-                type: Boolean,
-                required: false
+                type:       Boolean,
+                default:    false
             },
 
             label: {
-                type: String,
-                required: true
+                type:       String,
+                required:   true
             },
 
             sortBy: {
-                type: String,
-                required: true
+                type:       String,
+                required:   true
             },
 
             selected: {
-                type: String,
-                required: true
+                type:       String,
+                default:    null
             },
 
             width: {
-                type: String,
-                required: false
+                type:       String,
+                default:    null
             }
         },
 
@@ -46,7 +46,7 @@
         computed: {
              style() {
                  return {
-                     width: this.width + 'px'
+                     width: this.width ? this.width + 'px' : '100px'
                  }
              }
         },

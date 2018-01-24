@@ -8,17 +8,22 @@
                         v-bind="header"
                         @select-col="selectCol"
                         :selected="selectedCol"
-                        :disabled="loading"></sh>
+                        :disabled="loading" />
                 </tr>
             </thead>
             <tbody class="vue-table-body">
                 <slot name="row"
                       v-for="(row, idx) in tableData"
                       :id="'row-' + idx"
-                      :row="row"></slot>
+                      :row="row" />
                 <tr v-if="loading">
                     <td :colspan="headers.length">
                         Loading...
+                    </td>
+                </tr>
+                <tr v-else-if="tableData.length == 0">
+                    <td :colspan="headers.length">
+                        No data available ...
                     </td>
                 </tr>
             </tbody>
@@ -49,61 +54,62 @@
 
         props: {
             data: {
-                required: false,
-                type: Array
+                type:       Array,
+                default:    () => []
             },
 
             headers: {
-                required: true,
-                type: Array
+                required:   true,
+                type:       Array
             },
 
             methods: {
-                required: false,
-                type: Object
+                type:      Object,
+                default:   () => new Object()
             },
 
             paginate: {
-                required: false,
-                type: Number,
-                default: 10
+                type:       Number,
+                default:    10
             },
 
             selectedCol: {
-                required: false,
-                type: String
+                type:       String,
+                default:    null
             },
 
             url: {
-                required: false,
-                type: String
+                type:       String,
+                default:    null
             },
 
             vuexSet: {
-                required: false,
+                type:       String,
+                default:    null
             },
 
             vuexGet: {
-                required: false,
+                type:       String,
+                default:    null
             }
         },
 
         data: () => ({
+            internalData:       [],
+
+            loading:            false,
+
             pagination: {
-                prev: null,
-                next: null,
-                current_page: null,
-                last_page: null
+                current_page:   null,
+                last_page:      null,
+                next:           null,
+                prev:           null
             },
 
-            internalData: [],
-
-            loading: false,
-
             searchParams: {
-                order: 'asc',
-                selectedCol: null,
-                paginate: 10
+                order:          'asc',
+                paginate:       10,
+                selectedCol:    null
             }
         }),
 
@@ -117,7 +123,7 @@
         computed: {
             tableData: {
                 get() {
-                    if (this.vuexGet === undefined) {
+                    if (!this.vuexGet) {
                         return this.internalData;
                     } else {
                         return this.$store.getters[this.vuexGet];
@@ -128,7 +134,7 @@
                         item.methods = this.methods
                     });
 
-                    if (this.vuexSet === undefined) {
+                    if (!this.vuexSet) {
                         this.internalData = val;
                     } else {
                         this.$store.commit(this.vuexSet, val);
@@ -159,7 +165,7 @@
                         this.loading = false;
                      })
                      .catch(errors => {
-
+                        this.loading = false;
                      });
             }
         }
