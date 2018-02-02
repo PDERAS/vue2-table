@@ -7,7 +7,7 @@
                         :key="header.label"
                         v-bind="header"
                         @select-col="selectCol"
-                        :selected="selectedCol"
+                        :selected="searchParams.selectedCol"
                         :disabled="loading" />
                 </tr>
             </thead>
@@ -30,13 +30,13 @@
         </table>
         <div class="vue-table-navigation" v-if="!loading">
             <button :disabled="!pagination.prev" class="pagination" @click="update(pagination.prev)">
-                <i class="fa fa-arrow-left" aria-hidden="true" />
+                &larr;
             </button>
             <div class="current-page" v-if="pagination.current_page">
                 Page {{ pagination.current_page }} of {{ pagination.last_page }}
             </div>
             <button :disabled="!pagination.next" class="pagination"  @click="update(pagination.next)">
-                <i class="fa fa-arrow-right" aria-hidden="true" />
+                &rarr;
             </button>
         </div>
     </div>
