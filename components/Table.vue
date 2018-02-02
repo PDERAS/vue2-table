@@ -32,7 +32,7 @@
             <button :disabled="!pagination.prev" class="pagination" @click="update(pagination.prev)">
                 &larr;
             </button>
-            <div class="current-page" v-if="pagination.current_page">
+            <div class="current-page" v-if="internalData.length > 0">
                 Page {{ pagination.current_page }} of {{ pagination.last_page }}
             </div>
             <button :disabled="!pagination.next" class="pagination"  @click="update(pagination.next)">
