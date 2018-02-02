@@ -8,7 +8,7 @@
                         v-bind="header"
                         @select-col="selectCol"
                         :selected="searchParams.selectedCol"
-                        :disabled="loading" />
+                        :loading="loading" />
                 </tr>
             </thead>
             <tbody class="vue-table-body">

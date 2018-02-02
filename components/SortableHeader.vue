@@ -23,6 +23,10 @@
                 required:   true
             },
 
+            loading: {
+                type: Boolean,
+            },
+
             sortBy: {
                 type:       String,
                 required:   true
@@ -53,7 +57,7 @@
 
         methods: {
             selectCol() {
-                if (this.disabled) { return; }
+                if (this.disabled || this.loading) { return; }
                 if (this.sortBy != this.selected) {
                     this.order = 'asc';
                 } else {

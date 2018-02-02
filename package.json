@@ -1,6 +1,6 @@
 {
   "name": "@pderas/vue2-table",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A simple vue component for rendering sortable tables.",
   "main": "index.js",
   "scripts": {
