@@ -15,7 +15,8 @@
                 <slot name="row"
                       v-for="(row, idx) in tableData"
                       :id="'row-' + idx"
-                      :row="row" />
+                      :row="row"
+                      :vue="vue"/>
                 <tr v-if="loading">
                     <td :colspan="headers.length">
                         Loading...
@@ -118,6 +119,8 @@
             this.searchParams.paginate = this.paginate;
 
             this.url ? this.update(this.url) : this.internalData = this.data;
+
+            this.vue = this.$root;
         },
 
         computed: {
