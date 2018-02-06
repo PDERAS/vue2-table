@@ -2,8 +2,8 @@
     <th class="sortable-header" :class="{ selected: selected == sortBy }" @click="selectCol" :style="style">
         {{ label }}
         <template v-if="selected == sortBy">
-            <i v-if="order == 'asc'" aria-hidden="true">&uarr;</i>
-            <i v-if="order == 'desc'" aria-hidden="true">&darr;</i>
+            <span v-if="order == 'asc'">&uarr;</span>
+            <span v-if="order == 'desc'">&darr;</span>
         </template>
     </th>
 </template>

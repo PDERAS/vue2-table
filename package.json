@@ -20,5 +20,8 @@
     "pderas"
   ],
   "author": "David Buss",
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "2.x"
+  }
 }
