@@ -141,12 +141,19 @@ $border-radius: 0px;
             transition: width 0.5s ease-out;
     width: 25%;
 
-    &.expanded input {
+    &.expanded .input-icon {
         width: $expanded-width;
     }
 
     .input-icon {
         position: relative;
+        width: $base-width;
+
+        /* Transition */
+        -webkit-transition: width 0.5s ease-out;
+           -moz-transition: width 0.5s ease-out;
+             -o-transition: width 0.5s ease-out;
+                transition: width 0.5s ease-out;
 
         & > i {
             -webkit-transform: translate(0, -50%);
@@ -179,16 +186,10 @@ $border-radius: 0px;
                -moz-box-shadow: none;
                     box-shadow: none;
 
-            /* Transition */
-            -webkit-transition: width 0.5s ease-out;
-               -moz-transition: width 0.5s ease-out;
-                 -o-transition: width 0.5s ease-out;
-                    transition: width 0.5s ease-out;
-
             background-color: $searchbar-bg-color;
             display: block;
-            width: $base-width;
             height: 36px;
+            width: 100%;
             padding: 6px 12px;
             font-size: 14px;
             line-height: 1.6;
@@ -217,7 +218,7 @@ $border-radius: 0px;
             }
         }
 
-        &.left {
+        &.left > input {
             padding: 6px 12px 6px 37px;
         }
 
@@ -232,7 +233,7 @@ $border-radius: 0px;
                 position: absolute;
                 display: block;
                 top: 50%;
-                right: 0px;
+                right: 10px;
                 pointer-events: none;
                 width: 25px;
                 text-align: center;
