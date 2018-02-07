@@ -100,5 +100,15 @@ Vue.use(VueTable, {
 | searchWhen   | Determines when a search is run                                      | onDelay/onEnter      |
 | timeoutDelay | How long to wait before running a new search. (Only applies when searchWhen set to 'onDelay') | Number       |
 
+#### Ajax Parameters
+If a url is provided an ajax call is triggered every time a column is sorted or a search is run. The following parameters will be sent to the url provided.
+
+| Parameter   | Description                                                  |
+|-------------|--------------------------------------------------------------|
+| order       | The order to sort the data by. Either 'asc' or 'desc'.       |
+| paginate    | The amount of rows to paginate by.                           |
+| selectedCol | The sortBy value of the current column selected for sorting. |
+| term        | The current search term.                                     |
+
 ## License
 This project is covered under the MIT License. Feel free to use it wherever you like.
