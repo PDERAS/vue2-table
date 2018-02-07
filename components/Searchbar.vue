@@ -1,13 +1,13 @@
 <template>
     <div class="searchbar-wrapper" :class="{ expanded: expanded }" :style="theme">
         <div class="input-icon" :class="iconSide">
-            <slot name="icon" ></slot>
+            <i v-if="iconClasses && iconSide" :class="iconClasses" aria-hidden="true"></i>
             <input v-model="currentSearch"
                    type="text"
                    placeholder="Search..."
                    @keyup.enter="searchEnter"
                    @focus="expand(true)"
-                   @blur="expanded(false)" />
+                   @blur="expand(false)" />
         </div>
     </div>
 </template>
@@ -23,6 +23,12 @@
             expandible: {
                 type: Boolean,
                 default: () => defaults.expandible
+            },
+
+            /* Classes to generate icon for search bar */
+            iconClasses: {
+                type: String,
+                default: () => defaults.iconClasses
             },
 
             /* The side to show the search icon on */
@@ -41,12 +47,6 @@
             onSearch: {
                 type: Function,
                 required: true
-            },
-
-            /* The commit function if integrating with vuex */
-            searchLocation: {
-                type: String,
-                default: null
             },
 
             /* How frequently the search runs */
@@ -89,9 +89,6 @@
 
         watch: {
             currentSearch() {
-                if (this.searchLocation) {
-                    this.$store.commit(this.searchLocation, this.currentSearch);
-                }
                 this.delayedSearch();
             }
         },
@@ -129,8 +126,8 @@
 <style lang="scss">
 $searchbar-font-color: #626262;
 $searchbar-bg-color: #dfdede;
-$base-width: 150px;
-$expanded-width: 300px;
+$base-width: 50%;
+$expanded-width: 100%;
 $border-radius: 0px;
 
 .searchbar-wrapper {
@@ -142,9 +139,9 @@ $border-radius: 0px;
        -moz-transition: width 0.5s ease-out;
          -o-transition: width 0.5s ease-out;
             transition: width 0.5s ease-out;
-    width: $base-width;
+    width: 25%;
 
-    &.expanded {
+    &.expanded input {
         width: $expanded-width;
     }
 
@@ -192,7 +189,7 @@ $border-radius: 0px;
             display: block;
             width: $base-width;
             height: 36px;
-            padding: 6px 12px 6px 25px;
+            padding: 6px 12px;
             font-size: 14px;
             line-height: 1.6;
             color: $searchbar-font-color;
@@ -220,6 +217,10 @@ $border-radius: 0px;
             }
         }
 
+        &.left {
+            padding: 6px 12px 6px 37px;
+        }
+
         &.right {
             & > i {
                 -webkit-transform: translate(0, -50%);
@@ -245,7 +246,7 @@ $border-radius: 0px;
 
             & > input {
                 padding-left: 12px;
-                padding-right: 25px;
+                padding-right: 37px;
             }
         }
 

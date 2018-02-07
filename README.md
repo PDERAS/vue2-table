@@ -71,6 +71,7 @@ If you want to run any functions with a row action you can pass them into the vu
 | Option      | Description                                                          | Required |
 |-------------|----------------------------------------------------------------------|----------|
 | data        | An array to define the table data if a url is not provided.          | No       |
+| hasSearch   | Display the search bar.                                              | No       |
 | headers     | An array to populate the table headers                               | Yes      |
 | methods     | An object containing any functions to run within a row of the table. | No       |
 | paginate    | The number of items to paginate the table to.                        | No       |
@@ -78,6 +79,26 @@ If you want to run any functions with a row action you can pass them into the vu
 | url         | The url to retrieve data from.                                       | No       |
 | vuexSet     | The name of the commit function to run for vuex integration.         | No       |
 | vuexGet     | The name of the getter function to run for vuex integration.         | No       |
+
+#### Search Bar Options
+There are options to change the functionality of the search bar. These can be changed through the global options given when the plugin is activated.
+
+```javascript
+import VueTable from '@pderas/vue2-table';
+
+Vue.use(VueTable, {
+    expandible: false,
+    iconClasses: fa fa-search
+});
+```
+
+| Option       | Description                                                          | Options  |
+|--------------|----------------------------------------------------------------------|----------|
+| expandible   | Determines if the search expands on focus.                           | true/false       |
+| iconClasses  | The classes to generate the icon for the search bar                  | String   |
+| iconSide     | Determines what side the icon shows on.                              | left/right       |
+| searchWhen   | Determines when a search is run                                      | onDelay/onEnter      |
+| timeoutDelay | How long to wait before running a new search. (Only applies when searchWhen set to 'onDelay') | Number       |
 
 ## License
 This project is covered under the MIT License. Feel free to use it wherever you like.

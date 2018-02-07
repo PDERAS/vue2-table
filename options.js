@@ -1,6 +1,7 @@
 export default {
     expandible: true,
-    iconSide: 'left',
+    iconClasses: null,
+    iconSide: '',
     searchWhen: 'onDelay',
     timeoutDelay: 1000
 }

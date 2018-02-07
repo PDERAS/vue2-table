@@ -1,5 +1,11 @@
 <template>
     <div class="vue-table-wrapper">
+        <div class="vue-table-header">
+            <search-bar :on-search="search" @update-search="updateSearch" v-if="hasSearch" />
+            <div class="vue-table-actions">
+                <slot name="actions"></slot>
+            </div>
+        </div>
         <table class="vue-table">
             <thead>
                 <tr class="vue-table-header">
@@ -16,7 +22,7 @@
                       v-for="(row, idx) in tableData"
                       :id="'row-' + idx"
                       :row="row"
-                      :vue="vue"/>
+                      :vue="vue" />
                 <tr v-if="loading">
                     <td :colspan="headers.length">
                         Loading...
@@ -44,12 +50,14 @@
 </template>
 
 <script>
+    import searchBar from './Searchbar';
     import sh from './SortableHeader';
 
     export default {
         name: 'vue-table',
 
         components: {
+            searchBar,
             sh
         },
 
@@ -57,6 +65,11 @@
             data: {
                 type:       Array,
                 default:    () => []
+            },
+
+            hasSearch: {
+                type: Boolean,
+                default: true
             },
 
             headers: {
@@ -110,7 +123,8 @@
             searchParams: {
                 order:          'asc',
                 paginate:       10,
-                selectedCol:    null
+                selectedCol:    null,
+                term:           null
             }
         }),
 
@@ -153,6 +167,11 @@
                 this.update(this.url);
             },
 
+            search(term) {
+                this.searchParams.term = term;
+                this.update(this.url);
+            },
+
             update(url) {
                 this.tableData = [];
                 this.loading = true;
@@ -170,6 +189,10 @@
                      .catch(errors => {
                         this.loading = false;
                      });
+            },
+
+            updateSearch(term) {
+                this.searchParams.term = term;
             }
         }
 
@@ -180,6 +203,20 @@
     $btn-color: #fff;
 
     .vue-table-wrapper {
+        .vue-table-header {
+            margin: 10px 0px;
+            position: relative;
+            overflow: hidden;
+
+            .vue-table-actions {
+                display: inline-block;
+                float: right;
+                text-align: right;
+                width: 74%;
+                margin-left: 0.6%;
+            }
+        }
+
         .vue-table {
             width: 100%;
             border-collapse: collapse;
@@ -194,6 +231,14 @@
             tbody td {
                 padding: 10px;
                 font-size: 13px;
+            }
+
+            tbody tr {
+                background: #fff;
+
+                &:nth-child(2n + 1) {
+                    background: darken(#fff, 5%);
+                }
             }
         }
 
