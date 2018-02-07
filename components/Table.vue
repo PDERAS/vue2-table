@@ -161,6 +161,10 @@
         },
 
         methods: {
+            refresh() {
+                this.update(this.url);
+            },
+
             selectCol({ col, sort }) {
                 this.searchParams.selectedCol = col;
                 this.searchParams.order = sort;
