@@ -13,7 +13,7 @@
                         :key="header.label"
                         v-bind="header"
                         @select-col="selectCol"
-                        :selected="searchParams.selectedCol"
+                        :selected="defaultParams.selectedCol"
                         :loading="loading" />
                 </tr>
             </thead>
@@ -87,6 +87,11 @@
                 default:    10
             },
 
+            searchParams: {
+                type:       Object,
+                default:    () => new Object()
+            },
+
             selectedCol: {
                 type:       String,
                 default:    null
@@ -120,7 +125,7 @@
                 prev:           null
             },
 
-            searchParams: {
+            defaultParams: {
                 order:          'asc',
                 paginate:       10,
                 selectedCol:    null,
@@ -129,8 +134,8 @@
         }),
 
         mounted() {
-            this.searchParams.selectedCol = this.selectedCol ? this.selectedCol : null;
-            this.searchParams.paginate = this.paginate;
+            this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
+            this.defaultParams.paginate = this.paginate;
 
             this.url ? this.update(this.url) : this.internalData = this.data;
 
@@ -160,26 +165,37 @@
             }
         },
 
+        watch: {
+            searchParams() {
+                this.search();
+            }
+        },
+
         methods: {
             refresh() {
                 this.update(this.url);
             },
 
             selectCol({ col, sort }) {
-                this.searchParams.selectedCol = col;
-                this.searchParams.order = sort;
+                this.defaultParams.selectedCol = col;
+                this.defaultParams.order = sort;
                 this.update(this.url);
             },
 
             search(term) {
-                this.searchParams.term = term;
+                this.defaultParams.term = term;
+
+                Object.keys(this.searchParams).forEach(k => {
+                    this.defaultParams[k] = this.searchParams[k];
+                });
+
                 this.update(this.url);
             },
 
             update(url) {
                 this.tableData = [];
                 this.loading = true;
-                axios.get(url, { params: this.searchParams })
+                axios.get(url, { params: this.defaultParams })
                      .then(response => {
                         this.tableData = response.data.data;
                         this.pagination = {
@@ -196,7 +212,7 @@
             },
 
             updateSearch(term) {
-                this.searchParams.term = term;
+                this.defaultParams.term = term;
             }
         }
 
