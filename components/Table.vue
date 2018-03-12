@@ -183,7 +183,14 @@
             },
 
             search(term) {
+                var initialParams = [ 'order', 'paginate', 'selectedCol', 'term' ];
+
                 this.defaultParams.term = term;
+                Object.keys(this.defaultParams).forEach(k => {
+                    if (initialParams.indexOf(k) == -1) {
+                        delete this.defaultParams[k];
+                    }
+                });
 
                 Object.keys(this.searchParams).forEach(k => {
                     this.defaultParams[k] = this.searchParams[k];
