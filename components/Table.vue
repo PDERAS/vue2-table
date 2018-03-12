@@ -210,7 +210,6 @@
         .vue-table-header {
             margin: 10px 0px;
             position: relative;
-            overflow: hidden;
 
             .vue-table-actions {
                 display: inline-block;
