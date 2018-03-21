@@ -168,6 +168,9 @@
         watch: {
             searchParams() {
                 this.search();
+            },
+            data() {
+                this.refresh();
             }
         },
 
