@@ -137,9 +137,9 @@
             this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
             this.defaultParams.paginate = this.paginate;
 
-            this.refresh()
+            this.refresh();
             if (!this.url) {
-                this.setPage(1)
+                this.setPage(1);
             }
 
             this.vue = this.$root;
@@ -147,7 +147,7 @@
 
         computed: {
             sortedData() {
-                let col = this.defaultParams.selectedCol
+                let col = this.defaultParams.selectedCol;
                 let direction = this.defaultParams.order === 'asc' ? -1 : 1;
                 function compare(a,b) {
                     if (a[col] < b[col])
@@ -156,7 +156,7 @@
                         return 1 * direction;
                     return 0;
                 }
-                return this.internalData.sort(compare)
+                return this.internalData.sort(compare);
                 
             },
             tableData: {
@@ -198,7 +198,7 @@
             data() {
                 this.refresh();
                 if (!this.url) {
-                    this.setPage(1)
+                    this.setPage(1);
                 }
             }
         },
@@ -211,7 +211,7 @@
             selectCol({ col, sort }) {
                 this.defaultParams.selectedCol = col;
                 this.defaultParams.order = sort;
-                this.refresh()
+                this.refresh();
             },
 
             search(term) {
@@ -228,19 +228,19 @@
                     this.defaultParams[k] = this.searchParams[k];
                 });
 
-                this.refresh()
+                this.refresh();
             },
 
             changePage(page) {
                 if (this.url) {
-                    this.update(page)
+                    this.update(page);
                 } else {
-                    this.setPage(page)
+                    this.setPage(page);
                 }
             },
 
             setPage(page) {
-                let last = Math.ceil(this.data.length / this.paginate)
+                let last = Math.ceil(this.data.length / this.paginate);
                 this.pagination = {
                     prev: Math.max(page - 1, 1),
                     next: Math.min(page + 1, last),
