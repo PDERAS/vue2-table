@@ -137,7 +137,7 @@
             this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
             this.defaultParams.paginate = this.paginate;
 
-            this.url ? this.update(this.url) : this.internalData = this.data;
+            this.refresh();
 
             this.vue = this.$root;
         },
@@ -168,18 +168,21 @@
         watch: {
             searchParams() {
                 this.search();
+            },
+            data() {
+                this.refresh();
             }
         },
 
         methods: {
             refresh() {
-                this.update(this.url);
+                this.url ? this.update(this.url) : this.internalData = this.data;
             },
 
             selectCol({ col, sort }) {
                 this.defaultParams.selectedCol = col;
                 this.defaultParams.order = sort;
-                this.update(this.url);
+                this.refresh();
             },
 
             search(term) {
@@ -196,7 +199,7 @@
                     this.defaultParams[k] = this.searchParams[k];
                 });
 
-                this.update(this.url);
+                this.refresh();
             },
 
             update(url) {
