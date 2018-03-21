@@ -36,13 +36,13 @@
             </tbody>
         </table>
         <div class="vue-table-navigation" v-if="!loading">
-            <button :disabled="!pagination.prev" class="pagination" @click="update(pagination.prev)">
+            <button :disabled="!pagination.prev" class="pagination" @click="changePage(pagination.prev)">
                 &larr;
             </button>
             <div class="current-page" v-if="internalData.length > 0">
                 Page {{ pagination.current_page }} of {{ pagination.last_page }}
             </div>
-            <button :disabled="!pagination.next" class="pagination"  @click="update(pagination.next)">
+            <button :disabled="!pagination.next" class="pagination"  @click="changePage(pagination.next)">
                 &rarr;
             </button>
         </div>
@@ -137,16 +137,42 @@
             this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
             this.defaultParams.paginate = this.paginate;
 
-            this.refresh();
+            this.refresh()
+            if (!this.url) {
+                this.setPage(1)
+            }
 
             this.vue = this.$root;
         },
 
         computed: {
+            sortedData() {
+                let col = this.defaultParams.selectedCol
+                let direction = this.defaultParams.order === 'asc' ? -1 : 1;
+                function compare(a,b) {
+                    if (a[col] < b[col])
+                        return -1 * direction;
+                    if (a[col] > b[col])
+                        return 1 * direction;
+                    return 0;
+                }
+                return this.internalData.sort(compare)
+                
+            },
             tableData: {
                 get() {
                     if (!this.vuexGet) {
-                        return this.internalData;
+                        if (!this.url) {
+                            if (this.pagination.current_page === null) {
+                                this.pagination.currentPage = 1;
+                            }
+                            let start = (this.pagination.current_page - 1) * this.paginate;
+                            let end = this.pagination.current_page * this.paginate;
+                            
+                            return this.sortedData.slice(start, end);
+                        } else {
+                            return this.internalData;
+                        }
                     } else {
                         return this.$store.getters[this.vuexGet];
                     }
@@ -171,6 +197,9 @@
             },
             data() {
                 this.refresh();
+                if (!this.url) {
+                    this.setPage(1)
+                }
             }
         },
 
@@ -182,7 +211,7 @@
             selectCol({ col, sort }) {
                 this.defaultParams.selectedCol = col;
                 this.defaultParams.order = sort;
-                this.refresh();
+                this.refresh()
             },
 
             search(term) {
@@ -199,7 +228,25 @@
                     this.defaultParams[k] = this.searchParams[k];
                 });
 
-                this.refresh();
+                this.refresh()
+            },
+
+            changePage(page) {
+                if (this.url) {
+                    this.update(page)
+                } else {
+                    this.setPage(page)
+                }
+            },
+
+            setPage(page) {
+                let last = Math.ceil(this.data.length / this.paginate)
+                this.pagination = {
+                    prev: Math.max(page - 1, 1),
+                    next: Math.min(page + 1, last),
+                    current_page: page,
+                    last_page: last
+                }
             },
 
             update(url) {
