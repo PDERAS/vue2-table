@@ -35,7 +35,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="vue-table-navigation" v-if="!loading">
+        <div class="vue-table-navigation" v-if="!loading && showPagination">
             <button :disabled="!pagination.prev" class="pagination" @click="update(pagination.prev)">
                 &larr;
             </button>
@@ -97,6 +97,11 @@
                 default:    null
             },
 
+            showPagination: {
+                type:       Boolean,
+                default:    true
+            },
+
             url: {
                 type:       String,
                 default:    null
@@ -114,6 +119,7 @@
         },
 
         data: () => ({
+            filteredData:       [],
             internalData:       [],
 
             loading:            false,
@@ -137,8 +143,9 @@
             this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
             this.defaultParams.paginate = this.paginate;
 
-            this.refresh();
-
+            if (this.url) {
+                this.update(this.url);
+            }
             this.vue = this.$root;
         },
 
@@ -146,7 +153,7 @@
             tableData: {
                 get() {
                     if (!this.vuexGet) {
-                        return this.internalData;
+                        return this.filteredData;
                     } else {
                         return this.$store.getters[this.vuexGet];
                     }
@@ -157,7 +164,7 @@
                     });
 
                     if (!this.vuexSet) {
-                        this.internalData = val;
+                        this.filteredData = val;
                     } else {
                         this.$store.commit(this.vuexSet, val);
                     }
@@ -169,37 +176,67 @@
             searchParams() {
                 this.search();
             },
-            data() {
-                this.refresh();
+
+            data(val) {
+                this.internalData = val;
+                this.filteredData = val;
             }
         },
 
         methods: {
-            refresh() {
-                this.url ? this.update(this.url) : this.internalData = this.data;
-            },
-
             selectCol({ col, sort }) {
                 this.defaultParams.selectedCol = col;
                 this.defaultParams.order = sort;
-                this.refresh();
+
+                if (this.url) {
+                    this.update(this.url);
+                } else {
+                    this.filteredData.sort((a, b) => {
+                        if ((typeof a[col]) == 'string') {
+                            var aCol = a[col].toUpperCase();
+                            var bCol = b[col].toUpperCase();
+                        } else {
+                            var aCol = a[col];
+                            var bCol = b[col];
+                        }
+
+                        switch (sort) {
+                            case 'asc':
+                                if (aCol < bCol) { return -1; }
+                                else if (aCol > bCol) { return 1; }
+                                else { return 0; }
+                            case 'desc':
+                                if (aCol < bCol) { return 1; }
+                                else if (aCol > bCol) { return -1; }
+                                else { return 0; }
+                        }
+                    });
+                }
             },
 
             search(term) {
-                var initialParams = [ 'order', 'paginate', 'selectedCol', 'term' ];
-
                 this.defaultParams.term = term;
-                Object.keys(this.defaultParams).forEach(k => {
-                    if (initialParams.indexOf(k) == -1) {
-                        delete this.defaultParams[k];
-                    }
-                });
+                if (this.url) {
+                    var initialParams = [ 'order', 'paginate', 'selectedCol', 'term' ];
 
-                Object.keys(this.searchParams).forEach(k => {
-                    this.defaultParams[k] = this.searchParams[k];
-                });
+                    Object.keys(this.defaultParams).forEach(k => {
+                        if (initialParams.indexOf(k) == -1) {
+                            delete this.defaultParams[k];
+                        }
+                    });
 
-                this.refresh();
+                    Object.keys(this.searchParams).forEach(k => {
+                        this.defaultParams[k] = this.searchParams[k];
+                    });
+
+                    this.update(this.url);
+                } else {
+                    term = term.toLowerCase();
+                    this.filteredData = this.internalData.filter(i => {
+                        var combined = Object.values(i).join(' ').toLowerCase();
+                        return combined.indexOf(term) > -1;
+                    });
+                }
             },
 
             update(url) {
