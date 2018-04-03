@@ -40,13 +40,16 @@
             width: {
                 type:       String,
                 default:    null
+            },
+
+            order: {
+                type: String,
+                default: 'asc'
             }
         },
-
-        data: () => ({
-            order: 'asc'
-        }),
-
+        mounted() {
+            this.orderData = this.order ? this.order : 'asc';
+        },
         computed: {
              style() {
                  return {
@@ -58,13 +61,15 @@
         methods: {
             selectCol() {
                 if (this.disabled || this.loading) { return; }
+                let sort = ''
+
                 if (this.sortBy != this.selected) {
-                    this.order = 'asc';
+                    sort = 'asc';
                 } else {
-                    this.order == 'asc' ? this.order = 'desc' : this.order = 'asc';
+                    sort = this.order == 'asc' ? 'desc' : 'asc';
                 }
 
-                this.$emit('select-col', { col: this.sortBy, sort: this.order });
+                this.$emit('select-col', { col: this.sortBy, sort });
             }
         }
     }

@@ -13,6 +13,7 @@
                         :key="header.label"
                         v-bind="header"
                         @select-col="selectCol"
+                        :order="defaultParams.order"
                         :selected="defaultParams.selectedCol"
                         :loading="loading" />
                 </tr>
@@ -115,6 +116,15 @@
             vuexGet: {
                 type:       String,
                 default:    null
+            },
+
+            order: {
+                type: String,
+                default: 'asc',
+                validation: value => {
+                    return value.toLowerCase() === 'asc'
+                        || value.toLowerCase() === 'desc'
+                }
             }
         },
 
@@ -141,10 +151,14 @@
 
         mounted() {
             this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
+            this.defaultParams.order = this.order ? this.order.toLowerCase() : 'asc';
             this.defaultParams.paginate = this.paginate;
 
             if (this.url) {
                 this.update(this.url);
+            } else {
+                this.internalData = this.data;
+                this.filteredData = this.data;
             }
             this.vue = this.$root;
         },
@@ -181,7 +195,7 @@
                 this.internalData = val;
                 this.filteredData = val;
             },
-            
+
             url(val) {
                 this.update(this.url);
             }
