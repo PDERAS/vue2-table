@@ -180,6 +180,10 @@
             data(val) {
                 this.internalData = val;
                 this.filteredData = val;
+            },
+            
+            url(val) {
+                this.update(this.url);
             }
         },
 
