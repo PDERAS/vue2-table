@@ -154,12 +154,8 @@
             this.defaultParams.order = this.order ? this.order.toLowerCase() : 'asc';
             this.defaultParams.paginate = this.paginate;
 
-            if (this.url) {
-                this.update(this.url);
-            } else {
-                this.internalData = this.data;
-                this.filteredData = this.data;
-            }
+            this.refresh();
+
             this.vue = this.$root;
         },
 
@@ -198,10 +194,23 @@
 
             url(val) {
                 this.update(this.url);
+            },
+
+            selectedCol(val) {
+                this.defaultParams.selectedCol = val;
             }
         },
 
         methods: {
+            refresh() {
+                if (this.url) {
+                    this.update(this.url);
+                } else {
+                    this.internalData = val;
+                    this.filteredData = val;
+                }
+            },
+
             selectCol({ col, sort }) {
                 this.defaultParams.selectedCol = col;
                 this.defaultParams.order = sort;
