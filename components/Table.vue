@@ -173,8 +173,8 @@
         watch: {
             searchParams: {
                 handler: function(n) {
-                    for (const key of Object.keys(this.searchParams)) {
-                        this.defaultParams[key] = this.searchParams[key]
+                    for (const key of Object.keys(n)) {
+                        this.defaultParams[key] = n[key]
                     }
                     this.search(n.term);
                 },
