@@ -117,15 +117,6 @@
                 type:       String,
                 default:    null
             },
-
-            order: {
-                type: String,
-                default: 'asc',
-                validation: value => {
-                    return value.toLowerCase() === 'asc'
-                        || value.toLowerCase() === 'desc'
-                }
-            }
         },
 
         data: () => ({
@@ -151,8 +142,10 @@
 
         mounted() {
             this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
-            this.defaultParams.order = this.order ? this.order.toLowerCase() : 'asc';
             this.defaultParams.paginate = this.paginate;
+            if (this.searchParams.order) {
+                this.defaultParams.order = this.searchParams.order
+            }
 
             this.refresh();
 
@@ -183,8 +176,18 @@
         },
 
         watch: {
-            searchParams() {
-                this.search();
+            searchParams: {
+                handler: function(n) {
+                    if (n.selectedCol !== this.defaultParams.selectedCol) {
+                        this.defaultParams.selectedCol = n.selectedCol
+                    }
+                    if (n.order) {
+                        this.defaultParams.order = n.order
+                    }
+
+                    this.search(n.term);
+                },
+                deep: true
             },
 
             data(val) {
@@ -195,10 +198,6 @@
             url(val) {
                 this.update(this.url);
             },
-
-            selectedCol(val) {
-                this.defaultParams.selectedCol = val;
-            }
         },
 
         methods: {
