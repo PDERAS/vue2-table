@@ -93,11 +93,6 @@
                 default:    () => new Object()
             },
 
-            selectedCol: {
-                type:       String,
-                default:    null
-            },
-
             showPagination: {
                 type:       Boolean,
                 default:    true
@@ -117,15 +112,6 @@
                 type:       String,
                 default:    null
             },
-
-            order: {
-                type: String,
-                default: 'asc',
-                validation: value => {
-                    return value.toLowerCase() === 'asc'
-                        || value.toLowerCase() === 'desc'
-                }
-            }
         },
 
         data: () => ({
@@ -150,16 +136,14 @@
         }),
 
         mounted() {
-            this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
-            this.defaultParams.order = this.order ? this.order.toLowerCase() : 'asc';
             this.defaultParams.paginate = this.paginate;
 
-            if (this.url) {
-                this.update(this.url);
-            } else {
-                this.internalData = this.data;
-                this.filteredData = this.data;
+            for (const key of Object.keys(this.searchParams)) {
+                this.defaultParams[key] = this.searchParams[key]
             }
+
+            this.refresh();
+
             this.vue = this.$root;
         },
 
@@ -187,8 +171,14 @@
         },
 
         watch: {
-            searchParams() {
-                this.search();
+            searchParams: {
+                handler: function(n) {
+                    for (const key of Object.keys(n)) {
+                        this.defaultParams[key] = n[key]
+                    }
+                    this.search(n.term);
+                },
+                deep: true
             },
 
             data(val) {
@@ -198,10 +188,19 @@
 
             url(val) {
                 this.update(this.url);
-            }
+            },
         },
 
         methods: {
+            refresh() {
+                if (this.url) {
+                    this.update(this.url);
+                } else {
+                    this.internalData = this.data;
+                    this.filteredData = this.data;
+                }
+            },
+
             selectCol({ col, sort }) {
                 this.defaultParams.selectedCol = col;
                 this.defaultParams.order = sort;
