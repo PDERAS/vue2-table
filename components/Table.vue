@@ -93,11 +93,6 @@
                 default:    () => new Object()
             },
 
-            selectedCol: {
-                type:       String,
-                default:    null
-            },
-
             showPagination: {
                 type:       Boolean,
                 default:    true
@@ -141,7 +136,7 @@
         }),
 
         mounted() {
-            this.defaultParams.selectedCol = this.selectedCol ? this.selectedCol : null;
+            this.defaultParams.selectedCol = this.searchParams.selectedCol ? this.searchParams.selectedCol : null;
             this.defaultParams.paginate = this.paginate;
             if (this.searchParams.order) {
                 this.defaultParams.order = this.searchParams.order
