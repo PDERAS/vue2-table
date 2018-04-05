@@ -136,10 +136,10 @@
         }),
 
         mounted() {
-            this.defaultParams.selectedCol = this.searchParams.selectedCol ? this.searchParams.selectedCol : null;
             this.defaultParams.paginate = this.paginate;
-            if (this.searchParams.order) {
-                this.defaultParams.order = this.searchParams.order
+
+            for (const key of Object.keys(this.searchParams)) {
+                this.defaultParams[key] = this.searchParams[key]
             }
 
             this.refresh();
@@ -173,13 +173,9 @@
         watch: {
             searchParams: {
                 handler: function(n) {
-                    if (n.selectedCol !== this.defaultParams.selectedCol) {
-                        this.defaultParams.selectedCol = n.selectedCol
+                    for (const key of Object.keys(this.searchParams)) {
+                        this.defaultParams[key] = this.searchParams[key]
                     }
-                    if (n.order) {
-                        this.defaultParams.order = n.order
-                    }
-
                     this.search(n.term);
                 },
                 deep: true
@@ -200,8 +196,8 @@
                 if (this.url) {
                     this.update(this.url);
                 } else {
-                    this.internalData = val;
-                    this.filteredData = val;
+                    this.internalData = this.data;
+                    this.filteredData = this.data;
                 }
             },
 
