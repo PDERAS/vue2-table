@@ -76,7 +76,6 @@ If you want to run any functions with a row action you can pass them into the vu
 | methods      | An object containing any functions to run within a row of the table. | No       |
 | paginate     | The number of items to paginate the table to.                        | No       |
 | searchParams | An object of key/value pairs to add to the search.                   | No       |
-| selectedCol  | The column to default the sorting to.                                | No       |
 | url          | The url to retrieve data from.                                       | No       |
 | vuexSet      | The name of the commit function to run for vuex integration.         | No       |
 | vuexGet      | The name of the getter function to run for vuex integration.         | No       |
