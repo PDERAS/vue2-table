@@ -1,14 +1,14 @@
 <template>
-    <div class="vue-table-wrapper">
-        <div class="vue-table-header">
+    <div class="vue-table__wrapper">
+        <div class="vue-table__actions">
             <search-bar :on-search="search" @update-search="updateSearch" v-if="hasSearch" />
-            <div class="vue-table-actions">
+            <div class="vue-table__actions-slot">
                 <slot name="actions"></slot>
             </div>
         </div>
         <table class="vue-table">
-            <thead>
-                <tr class="vue-table-header">
+            <thead class="vue-table__header">
+                <tr>
                     <sh v-for="header in headers"
                         :key="header.label"
                         v-bind="header"
@@ -18,7 +18,7 @@
                         :loading="loading" />
                 </tr>
             </thead>
-            <tbody class="vue-table-body">
+            <tbody class="vue-table__body">
                 <slot name="row"
                       v-for="(row, idx) in tableData"
                       :id="'row-' + idx"
@@ -36,7 +36,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="vue-table-navigation" v-if="!loading && showPagination">
+        <div class="vue-table__navigation" v-if="!loading && showPagination">
             <button :disabled="!pagination.prev" class="pagination" @click="update(pagination.prev)">
                 &larr;
             </button>
@@ -286,37 +286,33 @@
 <style lang="scss">
     $btn-color: #fff;
 
-    .vue-table-wrapper {
-        .vue-table-header {
-            margin: 10px 0px;
-            position: relative;
+    .vue-table {
+        width: 100%;
+        border-collapse: collapse;
 
-            .vue-table-actions {
-                display: inline-block;
-                float: right;
+        &__actions {
+            margin: 10px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            &-slot {
                 text-align: right;
-                width: 74%;
-                margin-left: 0.6%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                flex: 0 0 75%;
+                max-width: 75%;
             }
         }
 
-        .vue-table {
-            width: 100%;
-            border-collapse: collapse;
-
-            .vue-table-header th {
-                text-align: left;
-                font-weight: bold;
-                font-size: 16px;
-                padding: 10px;
-            }
-
-            tbody td {
+        &__body {
+            td {
                 padding: 10px;
                 font-size: 13px;
             }
 
-            tbody tr {
+            tr {
                 background: #fff;
 
                 &:nth-child(2n + 1) {
@@ -325,7 +321,7 @@
             }
         }
 
-        .vue-table-navigation {
+        &__navigation {
             margin-top: 15px;
             margin-bottom: 15px;
             width: 100%;

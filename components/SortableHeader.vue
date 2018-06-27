@@ -76,11 +76,17 @@
 </script>
 
 <style lang="scss">
-    .sortable-header {
-        cursor: pointer;
+    .vue-table__header {
+        .sortable-header {
+            cursor: pointer;
+            text-align: left;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px;
 
-        i {
-            margin-left: 5px;
+            i {
+                margin-left: 5px;
+            }
         }
     }
 </style>

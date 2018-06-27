@@ -1,5 +1,5 @@
 <template>
-    <div class="searchbar-wrapper" :class="{ expanded: expanded }" :style="theme">
+    <div class="vue-table__searchbar" :class="{ expanded: expanded }" :style="theme">
         <div class="input-icon" :class="iconSide">
             <i v-if="iconClasses && iconSide" :class="iconClasses" aria-hidden="true"></i>
             <input v-model="currentSearch"
@@ -130,16 +130,15 @@ $base-width: 50%;
 $expanded-width: 100%;
 $border-radius: 0px;
 
-.searchbar-wrapper {
+.vue-table__searchbar {
 
-    display: inline-block;
-
+    flex: 25%;
     /* Transition */
     -webkit-transition: width 0.5s ease-out;
        -moz-transition: width 0.5s ease-out;
          -o-transition: width 0.5s ease-out;
             transition: width 0.5s ease-out;
-    width: 25%;
+    max-width: 25%;
 
     &.expanded .input-icon {
         width: $expanded-width;
@@ -196,6 +195,7 @@ $border-radius: 0px;
             color: $searchbar-font-color;
             border: none;
             resize: none;
+            margin: 0px;
 
             &:focus {
                 /* Box Shadow */
