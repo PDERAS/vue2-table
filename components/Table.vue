@@ -303,6 +303,16 @@
                 align-items: center;
                 flex: 0 0 75%;
                 max-width: 75%;
+
+                button {
+                    padding: 6px 10px;
+                    font-size: 16px;
+                    cursor: pointer;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
             }
         }
 
