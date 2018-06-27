@@ -68,7 +68,7 @@ If you want to run any functions with a row action you can pass them into the vu
 *Note: It is very important to define the scope of the template so that the data can be passed from the parent component into the children being defined for the rows.
 
 #### Table Options
-| Option       | Description                                                          | Required |
+| Prop         | Description                                                          | Required |
 |--------------|----------------------------------------------------------------------|----------|
 | data         | An array to define the table data if a url is not provided.          | No       |
 | hasSearch    | Display the search bar.                                              | No       |
@@ -92,7 +92,7 @@ Vue.use(VueTable, {
 });
 ```
 
-| Option       | Description                                                          | Options  |
+| Option       | Description                                                          | Values   |
 |--------------|----------------------------------------------------------------------|----------|
 | expandible   | Determines if the search expands on focus.                           | true/false       |
 | iconClasses  | The classes to generate the icon for the search bar                  | String   |
@@ -109,6 +109,14 @@ If a url is provided an ajax call is triggered every time a column is sorted or 
 | paginate    | The amount of rows to paginate by.                           |
 | selectedCol | The sortBy value of the current column selected for sorting. |
 | term        | The current search term.                                     |
+
+### 3. Customization
+Slots are used to provide additional items to the table while still keeping styles coherent.
+
+| Slot    | Description                                      |
+|---------|--------------------------------------------------|
+| row     | Defines what a table row should look like.       |
+| actions | Add actions buttons inline with the search bar   |
 
 ## License
 This project is covered under the MIT License. Feel free to use it wherever you like.
