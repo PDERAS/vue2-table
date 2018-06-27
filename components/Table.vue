@@ -2,7 +2,7 @@
     <div class="vue-table__wrapper">
         <div class="vue-table__actions">
             <search-bar :on-search="search" @update-search="updateSearch" v-if="hasSearch" />
-            <div class="vue-table__actions-slot">
+            <div class="vue-table__actions-slot" :class="{ 'full-width': !hasSearch }">
                 <slot name="actions"></slot>
             </div>
         </div>
@@ -312,6 +312,11 @@
                     &:focus {
                         outline: none;
                     }
+                }
+
+                &.full-width {
+                    flex: 100%;
+                    max-width: 100%;
                 }
             }
         }
