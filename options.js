@@ -4,5 +4,5 @@ export default {
     iconSide: '',
     searchWhen: 'onDelay',
     timeoutDelay: 1000,
-    showEmpty: true
+    showEmpty: false
 }

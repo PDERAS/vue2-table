@@ -70,13 +70,16 @@ If you want to run any functions with a row action you can pass them into the vu
 #### Table Options
 | Prop         | Description                                                          | Required |
 |--------------|----------------------------------------------------------------------|----------|
+| headers      | An array to populate the table headers                               | Yes      |
+| url          | The url to retrieve data from.                                       | No       |
 | data         | An array to define the table data if a url is not provided.          | No       |
 | hasSearch    | Display the search bar.                                              | No       |
-| headers      | An array to populate the table headers                               | Yes      |
 | methods      | An object containing any functions to run within a row of the table. | No       |
 | paginate     | The number of items to paginate the table to.                        | No       |
 | searchParams | An object of key/value pairs to add to the search.                   | No       |
-| url          | The url to retrieve data from.                                       | No       |
+| showEmpty    | Pad paginated data with blank rows.                                  | No       |
+| beforeUpdate | Function to be called before updating the table.                     | No       |
+| afterUpdate  | Function to be called after updating the table.                      | No       |
 | vuexSet      | The name of the commit function to run for vuex integration.         | No       |
 | vuexGet      | The name of the getter function to run for vuex integration.         | No       |
 

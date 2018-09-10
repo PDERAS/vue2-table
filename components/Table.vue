@@ -186,6 +186,7 @@
                     }
                 }
             },
+
             formattedTableData: {
                 get() {
                     if (this.showEmpty && this.tableData.length < this.paginate) {
@@ -295,11 +296,12 @@
                 if (typeof this.beforeUpdate === 'function') {
                     this.beforeUpdate();
                 }
+
                 this.tableData = [];
                 this.loading = true;
                 axios.get(url, { params: this.defaultParams })
                      .then(response => {
-                        this.tableData = response.data.data;
+                        this.tableData = response.data && response.data.data || [];
 
                         this.pagination = {
                             prev: response.data.prev_page_url,
