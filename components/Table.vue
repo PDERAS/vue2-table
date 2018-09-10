@@ -53,6 +53,7 @@
 <script>
     import searchBar from './Searchbar';
     import sh from './SortableHeader';
+    import defaults from '../options';
 
     export default {
         name: 'vue-table',
@@ -96,6 +97,11 @@
             showPagination: {
                 type:       Boolean,
                 default:    true
+            },
+
+            showEmpty: {
+                type:       Boolean,
+                default:    defaults.showEmpty
             },
 
             url: {
@@ -261,7 +267,19 @@
                 this.loading = true;
                 axios.get(url, { params: this.defaultParams })
                      .then(response => {
-                        this.tableData = response.data.data;
+                         if (this.showEmpty && response.data.data.length < this.paginate) {
+                             let blank = this.headers.reduce((acc, cur) => ({
+                                 ...acc,
+                                 [cur.sortBy]: String.fromCharCode(160)
+                            }), {})
+
+                            this.tableData = [
+                                 ...response.data.data,
+                                 ...new Array(this.paginate - response.data.data.length).fill(blank)
+                            ]
+                         } else {
+                            this.tableData = response.data.data;
+                         }
                         this.pagination = {
                             prev: response.data.prev_page_url,
                             next: response.data.next_page_url,

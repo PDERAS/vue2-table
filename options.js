@@ -3,5 +3,6 @@ export default {
     iconClasses: null,
     iconSide: '',
     searchWhen: 'onDelay',
-    timeoutDelay: 1000
+    timeoutDelay: 1000,
+    showEmpty: true
 }
