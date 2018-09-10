@@ -20,7 +20,7 @@
             </thead>
             <tbody class="vue-table__body">
                 <slot name="row"
-                      v-for="(row, idx) in tableData"
+                      v-for="(row, idx) in formattedTableData"
                       :id="'row-' + idx"
                       :row="row"
                       :vue="vue" />
@@ -53,6 +53,7 @@
 <script>
     import searchBar from './Searchbar';
     import sh from './SortableHeader';
+    import defaults from '../options';
 
     export default {
         name: 'vue-table',
@@ -98,6 +99,11 @@
                 default:    true
             },
 
+            showEmpty: {
+                type:       Boolean,
+                default:    defaults.showEmpty
+            },
+
             url: {
                 type:       String,
                 default:    null
@@ -112,6 +118,16 @@
                 type:       String,
                 default:    null
             },
+
+            beforeUpdate: {
+                type:       Function,
+                default:    null
+            },
+
+            afterUpdate: {
+                type:       Function,
+                default:    null
+            }
         },
 
         data: () => ({
@@ -132,7 +148,9 @@
                 paginate:       10,
                 selectedCol:    null,
                 term:           null
-            }
+            },
+
+            vue: null
         }),
 
         mounted() {
@@ -166,6 +184,24 @@
                     } else {
                         this.$store.commit(this.vuexSet, val);
                     }
+                }
+            },
+
+            formattedTableData: {
+                get() {
+                    if (this.showEmpty && this.tableData.length < this.paginate) {
+                        let blank = this.headers.reduce((acc, cur) => ({
+                            ...acc,
+                            [cur.sortBy]: String.fromCharCode(160)
+                        }), {})
+
+                        return [
+                            ...this.tableData,
+                            ...new Array(this.paginate - this.tableData.length).fill(blank)
+                        ]
+                    }
+
+                    return this.tableData
                 }
             }
         },
@@ -257,11 +293,16 @@
             },
 
             update(url) {
+                if (typeof this.beforeUpdate === 'function') {
+                    this.beforeUpdate();
+                }
+
                 this.tableData = [];
                 this.loading = true;
                 axios.get(url, { params: this.defaultParams })
                      .then(response => {
-                        this.tableData = response.data.data;
+                        this.tableData = response.data && response.data.data || [];
+
                         this.pagination = {
                             prev: response.data.prev_page_url,
                             next: response.data.next_page_url,
@@ -269,6 +310,10 @@
                             last_page: response.data.last_page
                         }
                         this.loading = false;
+
+                        if (typeof this.afterUpdate === 'function') {
+                            this.afterUpdate();
+                        }
                      })
                      .catch(errors => {
                         this.loading = false;
