@@ -37,13 +37,13 @@
             </tbody>
         </table>
         <div class="vue-table__navigation" v-if="!loading && showPagination">
-            <button :disabled="!pagination.prev" class="pagination" @click="update(pagination.prev)">
+            <button :disabled="!pagination.prev" class="pagination" @click="prevButton">
                 &larr;
             </button>
             <div class="current-page" v-if="internalData.length > 0">
                 Page {{ pagination.current_page }} of {{ pagination.last_page }}
             </div>
-            <button :disabled="!pagination.next" class="pagination"  @click="update(pagination.next)">
+            <button :disabled="!pagination.next" class="pagination"  @click="nextButton">
                 &rarr;
             </button>
         </div>
@@ -127,6 +127,11 @@
             afterUpdate: {
                 type:       Function,
                 default:    null
+            },
+
+            paginationOverride: {
+                type:       Boolean,
+                default:    false
             }
         },
 
@@ -322,6 +327,19 @@
 
             updateSearch(term) {
                 this.defaultParams.term = term;
+            },
+
+            prevButton() {
+                this.$emit('prev');
+                if (!this.paginationOverride) {
+                    this.update(this.pagination.prev)
+                }
+            },
+            nextButton() {
+                this.$emit('next');
+                if (!this.paginationOverride) {
+                    this.update(this.pagination.next);
+                }
             }
         }
 
