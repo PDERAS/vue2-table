@@ -84,8 +84,6 @@ If you want to run any functions with a row action you can pass them into the vu
 | vuexGet      | The name of the getter function to run for vuex integration.         | No       |
 | paginationOverride | If set to true, the default pagination will not be used        | No       |
 
----
-
 | Event        | Description                                                                     |
 |--------------|---------------------------------------------------------------------------------|
 | prev         | Emits when the previous button is pressed                                       |
