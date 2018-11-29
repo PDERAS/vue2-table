@@ -3,6 +3,7 @@
         <div class="input-icon" :class="iconSide">
             <i v-if="iconClasses && iconSide" :class="iconClasses" aria-hidden="true"></i>
             <input v-model="currentSearch"
+                   @input='$emit("update-search", currentSearch)'
                    type="text"
                    placeholder="Search..."
                    @keyup.enter="searchEnter"

@@ -213,7 +213,7 @@
 
         watch: {
             searchParams: {
-                handler: function(n) {
+                handler(n) {
                     for (const key of Object.keys(n)) {
                         this.defaultParams[key] = n[key]
                     }
@@ -327,6 +327,7 @@
 
             updateSearch(term) {
                 this.defaultParams.term = term;
+                this.searchParams.page = 1;
             },
 
             prevButton() {
