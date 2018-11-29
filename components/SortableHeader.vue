@@ -1,5 +1,5 @@
 <template>
-    <th class="sortable-header" :class="{ selected: selected == sortBy }" @click="selectCol" :style="style">
+    <th class="sortable-header" :class="[{ selected: selected == sortBy }, cssClass]" @click="selectCol" :style="style">
         {{ label }}
         <template v-if="selected == sortBy">
             <span v-if="order == 'asc'">&uarr;</span>
@@ -45,6 +45,11 @@
             order: {
                 type: String,
                 default: 'asc'
+            },
+            
+            cssClass: {
+                type: String,
+                default: null
             }
         },
         mounted() {

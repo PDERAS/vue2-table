@@ -82,6 +82,12 @@ If you want to run any functions with a row action you can pass them into the vu
 | afterUpdate  | Function to be called after updating the table.                      | No       |
 | vuexSet      | The name of the commit function to run for vuex integration.         | No       |
 | vuexGet      | The name of the getter function to run for vuex integration.         | No       |
+| paginationOverride | If set to true, the default pagination will not be used        | No       |
+
+| Event        | Description                                                                     |
+|--------------|---------------------------------------------------------------------------------|
+| prev         | Emits when the previous button is pressed                                       |
+| next         | Emits when the next button is pressed                                           |
 
 #### Search Bar Options
 There are options to change the functionality of the search bar. These can be changed through the global options given when the plugin is activated.
