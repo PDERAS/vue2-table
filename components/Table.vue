@@ -171,7 +171,7 @@
                     if (!this.vuexGet) {
                         return this.filteredData;
                     } else {
-                        return this.$store.getters[this.vuexGet];
+                        return this.$store.getters[this.vuexGet] || this.filteredData;
                     }
                 },
                 set(val) {
@@ -179,9 +179,8 @@
                         item.methods = this.methods
                     });
 
-                    if (!this.vuexSet) {
-                        this.filteredData = val;
-                    } else {
+                    this.filteredData = val;
+                    if (this.vuexSet) {
                         this.$store.commit(this.vuexSet, val);
                     }
                 }
