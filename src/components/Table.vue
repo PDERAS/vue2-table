@@ -56,31 +56,35 @@ import SearchBar from './SearchBar';
 import SortableHeader from './SortableHeader';
 import defaults from '../options';
 
-
 const network = {
-    get: (url, params) => new Promise((resolve, reject) => {
+    get: (url, { params }) => new Promise((resolve, reject) => {
 
-        function error (err) {
-            reject();
-        }
+        const errorFn = err => {
+            reject(err);
+        };
 
-        function success (rep) {
+        const successFn = rep => {
             try {
                 const data = JSON.parse(rep.currentTarget.response);
                 resolve({ data });
             } catch(err) {
-                reject();
+                reject(err);
             }
-        }
+        };
+
+        const toQuery = params => {
+            const str = Object.keys(params).map(key => key + '=' + params[key]).join('&');
+            return str ? `?${str}` : str;
+        };
 
         var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", rep => success(rep));
-        oReq.addEventListener("error", err => error(err));
-        oReq.addEventListener("abort", err => error(err));
-        oReq.open("GET", url);
+        oReq.addEventListener('load', rep => successFn(rep));
+        oReq.addEventListener('error', err => errorFn(err));
+        oReq.addEventListener('abort', err => errorFn(err));
+        oReq.open('GET', `${url}${toQuery(params)}`);
         oReq.send();
     })
-}
+};
 
 export default {
     name: 'VueTable',
