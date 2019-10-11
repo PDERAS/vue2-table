@@ -1,126 +1,126 @@
 <template>
-    <div class="vue-table__searchbar" :class="{ expanded: expanded }" :style="theme">
-        <div class="input-icon" :class="iconSide">
-            <i v-if="iconClasses && iconSide" :class="iconClasses" aria-hidden="true"></i>
-            <input v-model="currentSearch"
-                   type="text"
-                   placeholder="Search..."
-                   @keyup.enter="searchEnter"
-                   @focus="expand(true)"
-                   @blur="expand(false)" />
-        </div>
+<div :class="{ expanded: expanded }" :style="theme" class="vue-table__searchbar">
+    <div :class="iconSide" class="input-icon">
+        <i v-if="iconClasses && iconSide" :class="iconClasses" aria-hidden="true" />
+        <input v-model="currentSearch"
+            type="text"
+            placeholder="Search..."
+            @keyup.enter="searchEnter"
+            @focus="expand(true)"
+            @blur="expand(false)">
     </div>
+</div>
 </template>
 
 <script>
-    import defaults from '../options';
+import defaults from '../options';
 
-    export default {
-        name: 'searchbar',
+export default {
+    name: 'SearchBar',
 
-        props: {
-            /* Determines if the search bar expands when selected */
-            expandible: {
-                type: Boolean,
-                default: () => defaults.expandible
-            },
+    props: {
+        /* Determines if the search bar expands when selected */
+        expandible: {
+            type: Boolean,
+            default: () => defaults.expandible
+        },
 
-            /* Classes to generate icon for search bar */
-            iconClasses: {
-                type: String,
-                default: () => defaults.iconClasses
-            },
+        /* Classes to generate icon for search bar */
+        iconClasses: {
+            type: String,
+            default: () => defaults.iconClasses
+        },
 
-            /* The side to show the search icon on */
-            iconSide: {
-                type: String,
-                default: () => defaults.iconSide
-            },
+        /* The side to show the search icon on */
+        iconSide: {
+            type: String,
+            default: () => defaults.iconSide
+        },
 
-            /* The variable that determines if the search is loading */
-            loading: {
-                type: Boolean,
-                default: false
-            },
+        /* The variable that determines if the search is loading */
+        loading: {
+            type: Boolean,
+            default: false
+        },
 
-            /* The function to run on search */
-            onSearch: {
-                type: Function,
-                required: true
-            },
+        /* The function to run on search */
+        onSearch: {
+            type: Function,
+            required: true
+        },
 
-            /* How frequently the search runs */
-            searchWhen: {
-                type: String,
-                default: () => defaults.searchWhen,
-                validator(value) {
-                    var types = [
-                        'onDelay',
-                        'onEnter'
-                    ];
-                    if (types.indexOf(value) > -1) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+        /* How frequently the search runs */
+        searchWhen: {
+            type: String,
+            default: () => defaults.searchWhen,
+            validator(value) {
+                var types = [
+                    'onDelay',
+                    'onEnter'
+                ];
+                if (types.indexOf(value) > -1) {
+                    return true;
+                } else {
+                    return false;
                 }
-            },
-
-            /* Custom styling for searchbar */
-            theme: {
-                type: String,
-                default: null
-            },
-
-            /* The delay on search when searchWhen set to onDelay */
-            timeoutDelay: {
-                type: Number,
-                default: () => defaults.timeoutDelay
             }
         },
 
-        data() {
-            return {
-                currentSearch:  null,
-                expanded:       false,
-                timeout:        null
-            }
+        /* Custom styling for searchbar */
+        theme: {
+            type: String,
+            default: null
         },
 
-        watch: {
-            currentSearch() {
-                this.delayedSearch();
-            }
-        },
-
-        methods: {
-            delayedSearch() {
-                if (this.searchWhen != 'onDelay') { return; }
-
-                if (this.timeout) {
-                    clearTimeout(this.timeout);
-                }
-                this.timeout = setTimeout(() => {
-                    this.search();
-                }, this.timeoutDelay);
-            },
-
-            expand(truthy) {
-                if (this.expandible) {
-                    this.expanded = truthy;
-                }
-            },
-
-            searchEnter() {
-                if (this.searchWhen != 'onEnter') { return; }
-                this.search();
-            },
-
-            search() {
-                this.onSearch(this.currentSearch);
-            }
+        /* The delay on search when searchWhen set to onDelay */
+        timeoutDelay: {
+            type: Number,
+            default: () => defaults.timeoutDelay
         }
-    }
+    },
+
+    data() {
+        return {
+            currentSearch:  null,
+            expanded:       false,
+            timeout:        null
+        };
+    },
+
+    methods: {
+        delayedSearch() {
+            if (this.searchWhen != 'onDelay') { return; }
+
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+            }
+            this.timeout = setTimeout(() => {
+                this.search();
+            }, this.timeoutDelay);
+        },
+
+        expand(truthy) {
+            if (this.expandible) {
+                this.expanded = truthy;
+            }
+        },
+
+        searchEnter() {
+            if (this.searchWhen != 'onEnter') { return; }
+            this.search();
+        },
+
+        search() {
+            this.onSearch(this.currentSearch);
+        }
+    },
+
+    watch: {
+        currentSearch() {
+            this.delayedSearch();
+        }
+    },
+};
 </script>
 
 <style lang="scss">
@@ -223,7 +223,7 @@ $border-radius: 0px;
         }
 
         &.right {
-            & > i {
+            > i {
                 -webkit-transform: translate(0, -50%);
                    -moz-transform: translate(0, -50%);
                     -ms-transform: translate(0, -50%);
