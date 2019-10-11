@@ -1,4 +1,5 @@
-import Table from './components/Table.vue';
+import VueTable from './components/Table.vue';
+
 import options from './options';
 
 const VueTablePlugin = {
@@ -10,7 +11,7 @@ const VueTablePlugin = {
             });
         }
         // Globally register vue-table
-        Vue.component(Table.name, Table);
+        Vue.component(VueTable.name, VueTable);
     }
 };
 

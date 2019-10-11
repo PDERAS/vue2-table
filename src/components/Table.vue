@@ -56,6 +56,32 @@ import SearchBar from './SearchBar';
 import SortableHeader from './SortableHeader';
 import defaults from '../options';
 
+
+const network = {
+    get: (url, params) => new Promise((resolve, reject) => {
+
+        function error (err) {
+            reject();
+        }
+
+        function success (rep) {
+            try {
+                const data = JSON.parse(rep.currentTarget.response);
+                resolve({ data });
+            } catch(err) {
+                reject();
+            }
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", rep => success(rep));
+        oReq.addEventListener("error", err => error(err));
+        oReq.addEventListener("abort", err => error(err));
+        oReq.open("GET", url);
+        oReq.send();
+    })
+}
+
 export default {
     name: 'VueTable',
 
@@ -278,7 +304,8 @@ export default {
 
             this.tableData = [];
             this.loading = true;
-            axios.get(url, { params: this.defaultParams }) // eslint-disable-line no-undef
+
+            network.get(url, { params: this.defaultParams }) // eslint-disable-line no-undef
                 .then(response => {
                     this.tableData = response.data && response.data.data || [];
 
