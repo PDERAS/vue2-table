@@ -77,7 +77,7 @@ const network = {
             return str ? `?${str}` : str;
         };
 
-        var oReq = new XMLHttpRequest();
+        let oReq = new XMLHttpRequest();
         oReq.addEventListener('load', rep => successFn(rep));
         oReq.addEventListener('error', err => errorFn(err));
         oReq.addEventListener('abort', err => errorFn(err));
