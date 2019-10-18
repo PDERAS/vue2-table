@@ -30,6 +30,9 @@
     "vue2-table"
   ],
   "author": "David Buss",
+  "contributors": [
+    "Reed Jones <reed.jones@pderas.com>"
+  ],
   "license": "MIT",
   "peerDependencies": {
     "vue": "2.x"
