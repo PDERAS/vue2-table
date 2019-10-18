@@ -5,4 +5,4 @@ export default {
     searchWhen: 'onDelay',
     timeoutDelay: 1000,
     showEmpty: false
-}
+};
