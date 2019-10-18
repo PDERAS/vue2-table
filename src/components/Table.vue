@@ -161,6 +161,29 @@ export default {
         }
     },
 
+    data: () => ({
+        filteredData:       [],
+        internalData:       [],
+
+        loading:            false,
+
+        pagination: {
+            current_page:   null,
+            last_page:      null,
+            next:           null,
+            prev:           null
+        },
+
+        defaultParams: {
+            order:          'asc',
+            paginate:       10,
+            selectedCol:    null,
+            term:           null
+        },
+
+        vue: null
+    }),
+
     computed: {
         tableData: {
             get() {
@@ -200,29 +223,6 @@ export default {
             }
         }
     },
-
-    data: () => ({
-        filteredData:       [],
-        internalData:       [],
-
-        loading:            false,
-
-        pagination: {
-            current_page:   null,
-            last_page:      null,
-            next:           null,
-            prev:           null
-        },
-
-        defaultParams: {
-            order:          'asc',
-            paginate:       10,
-            selectedCol:    null,
-            term:           null
-        },
-
-        vue: null
-    }),
 
     mounted() {
         this.defaultParams.paginate = this.paginate;
