@@ -73,7 +73,7 @@ const network = {
         };
 
         const toQuery = params => {
-            const str = Object.keys(params).map(key => key + '=' + params[key]).join('&');
+            const str = Object.keys(params).map(key => `${key}=${params[key] || ''}`).join('&');
             return str ? `?${str}` : str;
         };
 
