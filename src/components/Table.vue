@@ -58,7 +58,6 @@ import defaults from '../options';
 
 const network = {
     get: (url, { params }) => new Promise((resolve, reject) => {
-
         const errorFn = err => {
             reject(err);
         };
@@ -73,10 +72,9 @@ const network = {
         };
 
         const toQuery = params => {
-            const str = Object.keys(params).map(key => `${key}=${params[key] || ''}`).join('&');
+            const str = Object.keys(params).map(key => `${key}=${encodeURIComponent(params[key] || '')}`).join('&');
             return str ? `${str}` : str;
         };
-
         const finalUrl = url.includes('?') ? `${url}&${toQuery(params)}` : `${url}?${toQuery(params)}`;
 
         let oReq = new XMLHttpRequest();
