@@ -95,9 +95,7 @@ export default {
     },
 
     created() {
-        if (this.defaultTerm) {
-            this.currentSearch = this.defaultTerm;
-        }
+        this.currentSearch = this.defaultTerm || null;
     },
 
     methods: {
