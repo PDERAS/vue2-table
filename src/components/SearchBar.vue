@@ -5,6 +5,7 @@
         <input v-model="currentSearch"
             type="text"
             placeholder="Search..."
+            :value="defaultTerm"
             @keyup.enter="searchEnter"
             @focus="expand(true)"
             @blur="expand(false)">
@@ -76,6 +77,12 @@ export default {
         timeoutDelay: {
             type: Number,
             default: () => defaults.timeoutDelay
+        },
+
+        /* Set the default search term */
+        defaultTerm: {
+            type:       String,
+            default:    null
         }
     },
 
@@ -85,6 +92,12 @@ export default {
             expanded:       false,
             timeout:        null
         };
+    },
+
+    created() {
+        if (this.defaultTerm) {
+            this.currentSearch = this.defaultTerm;
+        }
     },
 
     methods: {
