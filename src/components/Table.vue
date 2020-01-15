@@ -1,7 +1,11 @@
 <template>
 <div class="vue-table__wrapper">
     <div class="vue-table__actions">
-        <SearchBar v-if="hasSearch" :on-search="search" @update-search="updateSearch" />
+        <SearchBar 
+            v-if="hasSearch"
+            :default-term="defaultTerm"
+            :on-search="search"
+            @update-search="updateSearch" />
         <div :class="{ 'full-width': !hasSearch }" class="vue-table__actions-slot">
             <slot name="actions" />
         </div>
@@ -157,6 +161,11 @@ export default {
 
         afterUpdate: {
             type:       Function,
+            default:    null
+        },
+
+        defaultTerm: {
+            type:       String,
             default:    null
         }
     },

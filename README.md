@@ -102,6 +102,7 @@ Vue.use(VueTable, {
 | iconSide     | Determines what side the icon shows on.                              | left/right       |
 | searchWhen   | Determines when a search is run                                      | onDelay/onEnter      |
 | timeoutDelay | How long to wait before running a new search. (Only applies when searchWhen set to 'onDelay') | Number       |
+| defaultTerm  | The initial term to use when the searchbar loads.                    | String    |
 
 ## Ajax Parameters
 If a url is provided an ajax call is triggered every time a column is sorted or a search is run. The following parameters will be sent to the url provided.

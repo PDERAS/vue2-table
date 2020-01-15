@@ -76,6 +76,12 @@ export default {
         timeoutDelay: {
             type: Number,
             default: () => defaults.timeoutDelay
+        },
+
+        /* Set the default search term */
+        defaultTerm: {
+            type:       String,
+            default:    null
         }
     },
 
@@ -85,6 +91,10 @@ export default {
             expanded:       false,
             timeout:        null
         };
+    },
+
+    created() {
+        this.currentSearch = this.defaultTerm || null;
     },
 
     methods: {
