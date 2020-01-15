@@ -5,7 +5,6 @@
         <input v-model="currentSearch"
             type="text"
             placeholder="Search..."
-            :value="defaultTerm"
             @keyup.enter="searchEnter"
             @focus="expand(true)"
             @blur="expand(false)">
