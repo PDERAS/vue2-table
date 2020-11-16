@@ -258,6 +258,7 @@ export default {
         selectCol({ col, sort }) {
             this.defaultParams.selectedCol = col;
             this.defaultParams.order = sort;
+            this.$emit('default-params', this.defaultParams);
 
             if (this.url) {
                 this.update(this.url);
