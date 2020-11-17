@@ -1,6 +1,6 @@
 {
   "name": "@pderas/vue2-table",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "A simple vue component for rendering sortable and searchable tables.",
   "main": "dist/vue-table.umd.min.js",
   "scripts": {
@@ -47,7 +47,6 @@
     "@vue/cli-plugin-babel": "^3.12.0",
     "@vue/cli-plugin-eslint": "^3.12.0",
     "@vue/cli-service": "^3.12.0",
-    "fibers": "^4.0.1",
     "sass": "^1.23.0",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
